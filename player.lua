@@ -1,9 +1,10 @@
 require "vector"
+require "history"
 
 Player = Object:extend()
 
 function Player:new()
-    self.pos = Vector(50,50)
+    self.pos = Vector(45,1)
     self.width = 30
     self.height = 30
     self.color = {0,0,255}
@@ -22,6 +23,7 @@ function Player:update(dt)
 	if(love.keyboard.isDown('d'))then
 		self.pos.x = self.pos.x + 200 * dt
 	end
+
 end
 
 function Player:draw()

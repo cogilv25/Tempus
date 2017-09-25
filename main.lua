@@ -1,20 +1,26 @@
 function love.load()
-    
+    print("rumming")
 	--! Include Requirements
 	Object = require "lib/classic"
+	tick = require "lib/tick"
+	require "history"
+	require "timemachine"
 	require "rectangle"
 	require "player"
-	tick = require "lib/tick"
 
 	love.window.setTitle("Tick Tick...")
-	love.window.setFullscreen(true)
+	--!love.window.setFullscreen(true)
 	love.graphics.setBackgroundColor(0,0,0)
 
 	playArea = Vector(love.graphics.getDimensions())
 
 	player = Player()
 	enemy = Rectangle()
+	timem = TimeMachine()
+	history = History()
+	history:addEntity()
 	displayTimedStatus()
+	frame = 0
 end
 
 function displayTimedStatus(message,time)
@@ -44,8 +50,11 @@ function refresh()
 end
 
 function love.draw()
+	frame = frame + 1
 	enemy:draw()
     player:draw()
+    timem:draw()
+    history:draw(frame)
     love.graphics.setColor(0,255,0)
     if(displayStatus)then
     	love.graphics.print(status)
@@ -54,7 +63,9 @@ end
 
 function love.update(d)
 	tick.update(d)
+	history:addData(player.pos)
     player:update(d)
+    timem:update()
     enemy.vector = player.pos - enemy.pos
     enemy.vector:normalize()
     enemy.vector:scale(100)
