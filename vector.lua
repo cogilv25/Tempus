@@ -19,6 +19,10 @@ function Vector:__sub(vec2)
 	return out
 end
 
+function Vector:getCopy()
+	return Vector(self.x,self.y)
+end
+
 function Vector:scale(sv)
 	self.x = self.x * sv
 	self.y = self.y * sv

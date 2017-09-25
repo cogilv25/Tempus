@@ -1,5 +1,4 @@
 function love.load()
-    print("rumming")
 	--! Include Requirements
 	Object = require "lib/classic"
 	tick = require "lib/tick"
@@ -7,6 +6,7 @@ function love.load()
 	require "timemachine"
 	require "rectangle"
 	require "player"
+	require "zombie"
 
 	love.window.setTitle("Tick Tick...")
 	--!love.window.setFullscreen(true)
@@ -21,6 +21,7 @@ function love.load()
 	history:addEntity()
 	displayTimedStatus()
 	frame = 0
+	paused = false
 end
 
 function displayTimedStatus(message,time)
@@ -50,6 +51,7 @@ function refresh()
 end
 
 function love.draw()
+	if(paused)then return end
 	frame = frame + 1
 	enemy:draw()
     player:draw()
@@ -62,6 +64,7 @@ function love.draw()
 end
 
 function love.update(d)
+	if(paused)then return end
 	tick.update(d)
 	history:addData(player.pos)
     player:update(d)
