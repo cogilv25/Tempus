@@ -8,7 +8,7 @@ function TimeMachine:new()
     self.color = {255,255,255}
 end
 
-function TimeMachine:update(dt)
+function TimeMachine:update()
 	if((player.pos - self.pos):getLength() < 30)then
 		player.pos.x = 45
 		player.pos.y = 1

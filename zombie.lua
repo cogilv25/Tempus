@@ -25,7 +25,7 @@ function Zombie:update(dt)
     end
     self.vector = cv - self.pos
     self.vector:normalize()
-    self.vector:scale(20 * dt)
+    self.vector:scale(self.speed * dt)
 
     self.pos = self.pos + self.vector
 end
