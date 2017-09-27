@@ -15,7 +15,7 @@ function TimeMachine:update(dt)
 		history:addEntity(player.pos)
 		enemy.pos.x = 500
 		enemy.pos.y = 500
-		frame = 0
+		frame = 1
 	end
 end
 

@@ -15,12 +15,12 @@ function love.load()
 	playArea = Vector(love.graphics.getDimensions())
 
 	player = Player()
-	enemy = Rectangle()
+	enemy = Zombie()
 	timem = TimeMachine()
 	history = History()
 	history:addEntity()
 	displayTimedStatus()
-	frame = 0
+	frame = 1
 	paused = false
 end
 
@@ -51,8 +51,6 @@ function refresh()
 end
 
 function love.draw()
-	if(paused)then return end
-	frame = frame + 1
 	enemy:draw()
     player:draw()
     timem:draw()
@@ -64,14 +62,12 @@ function love.draw()
 end
 
 function love.update(d)
-	if(paused)then return end
 	tick.update(d)
+	if(paused)then return end
+	frame = frame + 1
 	history:addData(player.pos)
     player:update(d)
     timem:update()
-    enemy.vector = player.pos - enemy.pos
-    enemy.vector:normalize()
-    enemy.vector:scale(100)
 	enemy:update(d)
 
 	if((player.pos - enemy.pos):getLength() < 30)then

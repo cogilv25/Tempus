@@ -11,19 +11,23 @@ function Zombie:new()
 end
 
 function Zombie:update(dt)
-	d = 99999999 --! distance
-	cv = 0 --! closest player vector
+	d = (self.pos - player.pos):getLength() --! distance
+	cv = player.pos --! closest player vector
     for i,v in ipairs(history.Entities) do
     	t = v:getPosition(frame)
     	if(t ~= false)then
-    		td = (self.pos - v):getLength()
+    		td = (self.pos - t):getLength()
     		if(d > td)then
     			d = td
-    			cv = v
+    			cv = t
     		end
     	end
     end
-    self.vector = ((self.pos - cv):normalize()):scale(self.speed)
+    self.vector = cv - self.pos
+    self.vector:normalize()
+    self.vector:scale(20 * dt)
+
+    self.pos = self.pos + self.vector
 end
 
 function Zombie:draw()
