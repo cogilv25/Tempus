@@ -10,7 +10,7 @@ end
 
 function TimeMachine:update()
 	if((player.pos - self.pos):getLength() < 30)then
-		player.pos.x = 45
+		player.pos.x = 45 + (history.nEntities * 35)
 		player.pos.y = 1
 		history:addEntity(player.pos)
 		enemy.pos.x = 500

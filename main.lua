@@ -27,14 +27,19 @@ end
 
 function detectCollisions()
 	--! TODO: Quad trees or eq 
-	--! detect ghost on zombie collisions
+	--! detect ghost collisions with...
 	for i,v in ipairs(history.Entities) do
 		t = v:getPosition(frame)
 		if(t ~= false)then
+			--! zombie
 			if((t - enemy.pos):getLength() < 30) then
 				alive = false
 				paused = true
+			elseif((t - player.pos):getLength() < 30) then
+				history:rewind(i)
 			end
+			--! player
+
 		end
 	end
 	--! detect player on zombie collisions
@@ -43,7 +48,7 @@ function detectCollisions()
 		paused = true
 	end
 
-	--! check player on screen edge collisions
+	--! detect player on screen edge collisions
 	if(player.pos.x + 30 > playArea.x)then
 		player.pos.x = playArea.x - 30
 	elseif(player.pos.x < 0) then
@@ -54,8 +59,6 @@ function detectCollisions()
 	elseif(player.pos.y < 0) then
 		player.pos.y = 0
 	end
-
-	--! TODO detect player on ghost collisions
 end
 
 function displayTimedStatus(message,time)
