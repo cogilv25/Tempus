@@ -23,6 +23,7 @@ function History:addEntity(vector)
 end
 
 function History:rewind(entityID)
+	--! TODO:
 	--! If enemy positions were recorded I could keep entities[entityid]
 	--! and rewind enemy position to before later generations altered it
 	for i=entityID,self.nEntities do

@@ -23,6 +23,8 @@ function love.load()
 	frame = 1
 	paused = false
 	alive = true
+	zoom = 1
+	zoomv = 0
 end
 
 function detectCollisions()
@@ -88,6 +90,7 @@ function refresh()
 end
 
 function love.draw()
+    love.graphics.scale(zoom,zoom)
 	enemy:draw()
     player:draw()
     timem:draw()
@@ -96,9 +99,14 @@ function love.draw()
     if(displayStatus)then
     	love.graphics.print(status)
 	end
-	if(not alive) then
-		love.graphics.setColor(255,0,0)
-		love.graphics.print("Game Over!",(playArea.x/2)-(playArea.x/5),(playArea.y/2)-(playArea.y/5),0,10,10,0,0,0,0,0)
+	if (paused)then
+		if(alive) then
+			love.graphics.setColor(255,255,255)
+			love.graphics.print("Game Paused",(playArea.x/2)-(playArea.x/5),(playArea.y/2)-(playArea.y/5),0,10,10,0,0,0,0,0)
+		else
+			love.graphics.setColor(255,0,0)
+			love.graphics.print("Game Over!",(playArea.x/2)-(playArea.x/5),(playArea.y/2)-(playArea.y/5),0,10,10,0,0,0,0,0)
+		end
 	end
 end
 
@@ -117,7 +125,9 @@ end
 function love.keypressed(key)
 	if(key == 'r')then
 		refresh()
-	elseif(key == "escape")then
+	elseif(key == 'escape')then
 		love.event.quit()
+	elseif(key == 'p' and alive)then
+		paused = not paused
 	end
 end
