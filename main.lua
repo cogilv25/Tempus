@@ -37,11 +37,10 @@ function detectCollisions()
 			if((t - enemy.pos):getLength() < 30) then
 				alive = false
 				paused = true
+			--! player
 			elseif((t - player.pos):getLength() < 30) then
 				history:rewind(i)
 			end
-			--! player
-
 		end
 	end
 	--! detect player on zombie collisions
