@@ -9,9 +9,10 @@ function TimeMachine:new()
 end
 
 function TimeMachine:update()
+	--!TODO: not working, fix
 	if((player.pos - self.pos):getLength() < 30)then
-		player.pos.x = 45 + (history.nEntities * 35)
-		player.pos.y = 1
+		player.pos.x = 80 + (history.nEntities * 60)
+		player.pos.y = 50
 		history:addEntity(player.pos)
 		enemy.pos.x = 500
 		enemy.pos.y = 500

@@ -2,12 +2,13 @@ require "vector"
 Zombie = Object:extend()
 
 function Zombie:new()
-    self.pos = Vector(500,500)
-    self.width = 30
-    self.height = 30
+    self.pos = Vector(1000,800)
+    self.width = 35
+    self.height = 43
     self.vector = Vector()
-    self.color = {255,0,0}
+    self.color = {255,255,255}
     self.speed = 130
+    self.quad = love.graphics.newQuad(0,0,35,43,35,43)
 end
 
 function Zombie:update(dt)
@@ -32,5 +33,5 @@ end
 
 function Zombie:draw()
 	love.graphics.setColor(self.color)
-    love.graphics.rectangle("fill", self.pos.x, self.pos.y, self.width, self.height)
+    love.graphics.draw(zombieTex,self.quad, self.pos.x - self.width/2, self.pos.y - self.height/2,-math.atan2(self.vector.x,self.vector.y)+1.5708,1,1,self.width/2,self.height/2)
 end

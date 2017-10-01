@@ -23,8 +23,14 @@ function love.load()
 	frame = 1
 	paused = false
 	alive = true
-	zoom = 1
-	zoomv = 0
+
+	red = love.graphics.newImage("Data/textures/entities/red.png")
+	green = love.graphics.newImage("Data/textures/entities/green.png")
+	blue = love.graphics.newImage("Data/textures/entities/blue.png")
+	yellow = love.graphics.newImage("Data/textures/entities/yellow.png")
+	zombieTex = love.graphics.newImage("Data/textures/entities/zombie.png")
+	playerTex = love.graphics.newImage("Data/textures/entities/player.png")
+
 end
 
 function detectCollisions()
@@ -52,13 +58,13 @@ function detectCollisions()
 	--! detect player on screen edge collisions
 	if(player.pos.x + 30 > playArea.x)then
 		player.pos.x = playArea.x - 30
-	elseif(player.pos.x < 0) then
-		player.pos.x = 0
+	elseif(player.pos.x < 30) then
+		player.pos.x = 30
 	end
 	if(player.pos.y + 30 > playArea.y)then
 		player.pos.y = playArea.y - 30
-	elseif(player.pos.y < 0) then
-		player.pos.y = 0
+	elseif(player.pos.y < 30) then
+		player.pos.y = 30
 	end
 end
 
@@ -89,13 +95,12 @@ function refresh()
 end
 
 function love.draw()
-    love.graphics.scale(zoom,zoom)
 	enemy:draw()
     player:draw()
     timem:draw()
     history:draw(frame)
-    love.graphics.setColor(0,255,0)
     if(displayStatus)then
+    love.graphics.setColor(0,255,0)
     	love.graphics.print(status)
 	end
 	if (paused)then
