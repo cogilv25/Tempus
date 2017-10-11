@@ -1,11 +1,14 @@
 require "vector"
 Zombie = Object:extend()
 
+--! TODO: TOTAL REFACTOR - Doesn't follow Player correctly possibly
+--! shouldn't even be coupled so strongly to Player in the first place!
+
 function Zombie:new()
     self.pos = Vector(1000,800)
     self.width = 35
     self.height = 43
-    self.vector = Vector()
+    self.direction = Vector()
     self.color = {255,255,255}
     self.speed = 130
     self.quad = love.graphics.newQuad(0,0,35,43,35,43)
@@ -24,11 +27,11 @@ function Zombie:update(dt)
     		end
     	end
     end
-    self.vector = cv - self.pos
-    self.vector:normalize()
-    self.vector:scale(self.speed * dt)
+    self.direction = cv - self.pos
+    self.direction:normalize()
+    self.direction:scale(self.speed * dt)
 
-    self.pos = self.pos + self.vector
+    self.pos = self.pos + self.direction
 end
 
 function Zombie:draw()

@@ -1,5 +1,10 @@
 TimeMachine = Object:extend()
 
+
+--! TODO: TOTAL REFACTOR - How should this interact with the history mechanism
+--! does it have any internal state or is it a glorified trigger point? if so
+--! generalise it
+
 function TimeMachine:new()
     self.pos = Vector(1,1)
     self.width = 30

@@ -1,3 +1,6 @@
+--!TODO: Move a lot of code out of here and generally tidy up so a high level
+--! overview of the codebase can be obtained from a quick skim of this file
+
 function love.load()
 	--! Include Requirements
 	Object = require "lib/classic"
@@ -30,6 +33,7 @@ function love.load()
 	yellow = love.graphics.newImage("Data/textures/entities/yellow.png")
 	zombieTex = love.graphics.newImage("Data/textures/entities/zombie.png")
 	playerTex = love.graphics.newImage("Data/textures/entities/player.png")
+	love.mouse.setVisible(false)
 
 end
 
@@ -95,12 +99,12 @@ function refresh()
 end
 
 function love.draw()
-	enemy:draw()
+	--!enemy:draw()
     player:draw()
-    timem:draw()
-    history:draw(frame)
+    --!timem:draw()
+    --!history:draw(frame)
     if(displayStatus)then
-    love.graphics.setColor(0,255,0)
+    	love.graphics.setColor(0,255,0)
     	love.graphics.print(status)
 	end
 	if (paused)then
@@ -118,12 +122,12 @@ function love.update(d)
 	tick.update(d)
 	if(paused)then return end
 	frame = frame + 1
-    timem:update()
-	history:addData(player.pos)
+    --!timem:update()
+	--!history:addData(player.pos)
     player:update(d)
-	enemy:update(d)
+	--!enemy:update(d)
 
-	detectCollisions()
+	--!detectCollisions()
 end
 
 function love.keypressed(key)

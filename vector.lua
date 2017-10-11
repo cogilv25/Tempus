@@ -1,5 +1,8 @@
 Vector = Object:extend()
 
+--!TODO: Add functionality rotate, I'm sure there are others, etc
+--!also tidy up and make things more intuitive
+
 function Vector:new(x,y)
 	self.x = x or 0
 	self.y = y or 0

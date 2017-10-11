@@ -1,5 +1,8 @@
 require "vector"
 
+
+--! TODO: TOTAL REFACTOR - Do we need this what does it do
+
 Rectangle = Object:extend()
 
 function Rectangle:new()

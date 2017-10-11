@@ -1,5 +1,9 @@
 require "ghost"
 
+
+--! TODO: TOTAL REFACTOR will probably change the name
+--! and split the class into several smaller ones for zombies/player/etc
+
 History = Object:extend()
 
 function History:new()

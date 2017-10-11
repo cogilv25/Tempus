@@ -1,5 +1,9 @@
 Ghost = Object:extend()
 
+--! REFACTOR - don't like the way this works ghosts shouldn't track
+--! how long they live it should be done externally and they can be
+--! skipped when they die
+
 function Ghost:new()
 	self.history = {}
 	self.color = {145,205,255}
