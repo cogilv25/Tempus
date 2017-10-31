@@ -19,6 +19,10 @@ function Vector:__sub(vec2)
 	return out
 end
 
+function Vector:__lt(vec2)
+	return (self:getLength() < vec2:getLength())
+end
+
 function Vector:getCopy()
 	return Vector(self.x,self.y)
 end

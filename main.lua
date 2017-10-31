@@ -1,7 +1,14 @@
 function love.load()
 	--! Include Requirements
+	--! Libraries
 	Object = require "lib/classic"
 	tick = require "lib/tick"
+
+	--! Base Classes
+	require "event"
+	require "areatrigger"
+
+	--! High Level Classes
 	require "history"
 	require "timemachine"
 	require "rectangle"
