@@ -3,10 +3,15 @@ function love.load()
 	--! Libraries
 	Object = require "lib/classic"
 	tick = require "lib/tick"
+	bit = require "bit"
+	--! Utility Classes
+	require "xorshift"
 
 	--! Base Classes
 	require "event"
 	require "areatrigger"
+	require "entity"
+	require "level"
 
 	--! High Level Classes
 	require "history"
@@ -14,6 +19,7 @@ function love.load()
 	require "rectangle"
 	require "player"
 	require "zombie"
+	require "rngworld"
 
 	love.window.setTitle("Tick Tick...")
 	--!love.window.setFullscreen(true)
@@ -27,6 +33,7 @@ function love.load()
 	history = History()
 	history:addEntity()
 	displayTimedStatus()
+	world = RNGWorld()
 	frame = 1
 	paused = false
 end
@@ -58,6 +65,8 @@ function refresh()
 end
 
 function love.draw()
+	love.graphics.translate(playArea.x/2 - (player.pos.x + player.dim.x), playArea.y/2 - (player.pos.y + player.dim.y/2))
+	world:draw()
 	enemy:draw()
     player:draw()
     timem:draw()
@@ -79,18 +88,6 @@ function love.update(d)
 
 	if((player.pos - enemy.pos):getLength() < 30)then
 		displayTimedStatus("You Have Failed", 5)
-	end
-
-	if(player.pos.x + 30 > playArea.x)then
-		player.pos.x = playArea.x - 30
-	elseif(player.pos.x < 0) then
-		player.pos.x = 0
-	end
-
-	if(player.pos.y + 30 > playArea.y)then
-		player.pos.y = playArea.y - 30
-	elseif(player.pos.y < 0) then
-		player.pos.y = 0
 	end
 end
 

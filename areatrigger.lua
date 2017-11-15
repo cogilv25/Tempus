@@ -10,7 +10,7 @@ function AreaTrigger:new(x,y,width,height,event)
 end
 
 function AreaTrigger:update(dt)
-	if((player.pos - self.pos):getLength() < math.max(player.width,self.wh.x))then
+	if((player.pos - self.pos):getLength() < math.max(player.dim.x,self.wh.x))then
 		self:event();
 	end
 end

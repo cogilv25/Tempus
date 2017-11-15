@@ -1,12 +1,11 @@
 require "vector"
 require "history"
 
-Player = Object:extend()
+Player = Entity:extend()
 
 function Player:new()
+    self.super.new(self)
     self.pos = Vector(45,1)
-    self.width = 30
-    self.height = 30
     self.color = {0,0,255}
 end
 
@@ -28,5 +27,5 @@ end
 
 function Player:draw()
 	love.graphics.setColor(self.color)
-    love.graphics.rectangle("fill", self.pos.x, self.pos.y, self.width, self.height)
+    love.graphics.rectangle("fill", self.pos.x, self.pos.y, self.dim.x, self.dim.y)
 end
