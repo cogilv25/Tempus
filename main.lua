@@ -5,12 +5,12 @@ function love.load()
 	tick = require "lib/tick"
 	rng = require "lib/xorshift"
 	bit = require "bit"
-	--! Utility Classes
-
+	
 	--! Base Classes
 	require "event"
 	require "areatrigger"
 	require "entity"
+	require "world"
 	require "level"
 
 	--! High Level Classes
