@@ -3,9 +3,9 @@ function love.load()
 	--! Libraries
 	Object = require "lib/classic"
 	tick = require "lib/tick"
+	rng = require "lib/xorshift"
 	bit = require "bit"
 	--! Utility Classes
-	require "xorshift"
 
 	--! Base Classes
 	require "event"
