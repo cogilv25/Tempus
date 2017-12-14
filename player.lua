@@ -5,7 +5,7 @@ Player = Entity:extend()
 
 function Player:new()
     self.super.new(self)
-    self.pos = Vector(45,1)
+    self.pos = Vector(70,40)
     self.color = {0,0,255}
 end
 

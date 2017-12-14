@@ -2,7 +2,7 @@ require "areatrigger"
 TimeMachine = AreaTrigger:extend()
 
 function TimeMachine:new()
-   	self.super.new(self,0,0,30,30,self.activationEvent)
+   	self.super.new(self,30,30,30,30,self.activationEvent)
    	self.color = {255,255,255}
 end
 

@@ -32,7 +32,7 @@ function World:draw()
 				else 
 					love.graphics.setColor({0,255,0})
 				end
-    			love.graphics.rectangle("fill", i*30, j*30, self.tileDim.x, self.tileDim.y)
+    			love.graphics.rectangle("fill", i*30-30, j*30-30, self.tileDim.x, self.tileDim.y)
     		end
 		end
 	end

@@ -33,7 +33,8 @@ function love.load()
 	history = History()
 	history:addEntity()
 	displayTimedStatus()
-	world = RNGWorld()
+	level = Level()
+	level:loadFromFile("Data/MockPrefab.lvl")
 	frame = 1
 	paused = false
 end
@@ -66,7 +67,7 @@ end
 
 function love.draw()
 	love.graphics.translate(playArea.x/2 - (player.pos.x + player.dim.x), playArea.y/2 - (player.pos.y + player.dim.y/2))
-	world:draw()
+	level:draw()
 	enemy:draw()
     player:draw()
     timem:draw()
