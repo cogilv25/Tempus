@@ -1,3 +1,4 @@
+require "lib/classic/classic"
 Vector = Object:extend()
 
 --!TODO: Add functionality rotate, I'm sure there are others, etc
@@ -20,6 +21,10 @@ function Vector:__sub(vec2)
 	out.x = self.x - vec2.x
 	out.y = self.y - vec2.y
 	return out
+end
+
+function Vector:__lt(vec2)
+	return (self:getLength() < vec2:getLength())
 end
 
 function Vector:getCopy()

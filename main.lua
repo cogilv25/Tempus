@@ -1,18 +1,48 @@
---!TODO: Move a lot of code out of here and generally tidy up so a high level
---! overview of the codebase can be obtained from a quick skim of this file
+-- Written by Calum Lindsay.
+
+-- I wrote this to test out an idea
+-- there's not a lot to it at the moment.
+-- There possibly never will be as
+-- I mostly got what I wanted from it
+-- This was completely written without
+-- any intention of anyone reading it or
+-- even trying to comprehend it so it may
+-- have strange quirks here and there and
+-- certainly isn't completely thought
+-- through.
+
+-- Controls:
+-- WASD to moveDoors
+-- move around a bit then go to the
+-- white square at the top left to
+-- go back in time and you'll see
+-- your previous self moving around
 
 function love.load()
 	--! Include Requirements
-	Object = require "lib/classic"
-	tick = require "lib/tick"
+	--! Libraries
+	Object = require "lib/classic/classic"
+	tick = require "lib/tick/tick"
+	rng = require "lib/xorshift"
+	bit = require "bit"
+	
+	--! Base Classes
+	require "event"
+	require "areatrigger"
+	require "entity"
+	require "world"
+	require "level"
+
+	--! High Level Classes
 	require "history"
 	require "timemachine"
 	require "rectangle"
 	require "player"
 	require "zombie"
+	require "rngworld"
 
 	love.window.setTitle("Tick Tick...")
-	love.window.setFullscreen(true)
+	--!love.window.setFullscreen(true)
 	love.graphics.setBackgroundColor(0,0,0)
 
 	playArea = Vector(love.graphics.getDimensions())
@@ -23,53 +53,18 @@ function love.load()
 	history = History()
 	history:addEntity()
 	displayTimedStatus()
+	level = Level()
+	level:loadFromFile("Data/MockPrefab.lvl")
+	-- This should be defined in lvl file
+	activator = AreaTrigger(21*30,9*30,30,30,moveDoors)
+	activator.color = {185,0,255}
 	frame = 1
 	paused = false
-	alive = true
-
-	red = love.graphics.newImage("Data/textures/entities/red.png")
-	green = love.graphics.newImage("Data/textures/entities/green.png")
-	blue = love.graphics.newImage("Data/textures/entities/blue.png")
-	yellow = love.graphics.newImage("Data/textures/entities/yellow.png")
-	zombieTex = love.graphics.newImage("Data/textures/entities/zombie.png")
-	playerTex = love.graphics.newImage("Data/textures/entities/player.png")
-	love.mouse.setVisible(false)
-
 end
 
-function detectCollisions()
-	--! TODO: Quad trees or eq 
-	--! detect ghost collisions with...
-	for i,v in ipairs(history.Entities) do
-		t = v:getPosition(frame)
-		if(t ~= false)then
-			--! zombie
-			if((t - enemy.pos):getLength() < 30) then
-				alive = false
-				paused = true
-			--! player
-			elseif((t - player.pos):getLength() < 30) then
-				history:rewind(i)
-			end
-		end
-	end
-	--! detect player on zombie collisions
-	if((player.pos - enemy.pos):getLength() < 30)then
-		alive = false
-		paused = true
-	end
-
-	--! detect player on screen edge collisions
-	if(player.pos.x + 30 > playArea.x)then
-		player.pos.x = playArea.x - 30
-	elseif(player.pos.x < 30) then
-		player.pos.x = 30
-	end
-	if(player.pos.y + 30 > playArea.y)then
-		player.pos.y = playArea.y - 30
-	elseif(player.pos.y < 30) then
-		player.pos.y = 30
-	end
+function moveDoors() 
+	level.terrain.grid[13][12] = 0;
+	level.terrain.grid[14][12] = 0;
 end
 
 function displayTimedStatus(message,time)
@@ -99,22 +94,17 @@ function refresh()
 end
 
 function love.draw()
-	--!enemy:draw()
+	love.graphics.translate(playArea.x/2 - (player.pos.x + player.dim.x), playArea.y/2 - (player.pos.y + player.dim.y/2))
+	level:draw()
+	enemy:draw()
     player:draw()
-    --!timem:draw()
-    --!history:draw(frame)
+    timem:draw()
+    love.graphics.setColor(activator.color)
+    love.graphics.rectangle("fill", activator.pos.x, activator.pos.y, activator.wh.x, activator.wh.y)
+    history:draw(frame)
+    love.graphics.setColor(0,255,0)
     if(displayStatus)then
-    	love.graphics.setColor(0,255,0)
     	love.graphics.print(status)
-	end
-	if (paused)then
-		if(alive) then
-			love.graphics.setColor(255,255,255)
-			love.graphics.print("Game Paused",(playArea.x/2)-(playArea.x/5),(playArea.y/2)-(playArea.y/5),0,10,10,0,0,0,0,0)
-		else
-			love.graphics.setColor(255,0,0)
-			love.graphics.print("Game Over!",(playArea.x/2)-(playArea.x/5),(playArea.y/2)-(playArea.y/5),0,10,10,0,0,0,0,0)
-		end
 	end
 end
 
@@ -122,20 +112,22 @@ function love.update(d)
 	tick.update(d)
 	if(paused)then return end
 	frame = frame + 1
-    --!timem:update()
-	--!history:addData(player.pos)
+	history:addData(player.pos)
     player:update(d)
-	--!enemy:update(d)
+    timem:update()
+    activator:update()
+	enemy:update(d)
 
-	--!detectCollisions()
+	--Not exactly accurate I know
+	if((player.pos - enemy.pos):getLength() < 30)then
+		displayTimedStatus("You Have Failed", 5)
+	end
 end
 
 function love.keypressed(key)
 	if(key == 'r')then
 		refresh()
-	elseif(key == 'escape')then
+	elseif(key == "escape")then
 		love.event.quit()
-	elseif(key == 'p' and alive)then
-		paused = not paused
 	end
 end

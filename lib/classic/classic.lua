@@ -64,5 +64,13 @@ function Object:__call(...)
   return obj
 end
 
+function Object:getCopy()
+  local obj = setmetatable({},self)
+  for k, v in pairs(self) do
+    obj[k] = v
+  end
+  return obj
+end
+
 
 return Object
