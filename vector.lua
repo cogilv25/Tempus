@@ -1,4 +1,4 @@
-require "lib/classic"
+require "lib/classic/classic"
 Vector = Object:extend()
 
 function Vector:new(x,y)
