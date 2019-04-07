@@ -12,7 +12,7 @@
 -- through.
 
 -- Controls:
--- WASD to moveDoors
+-- WASD to move
 -- move around a bit then go to the
 -- white square at the top left to
 -- go back in time and you'll see
