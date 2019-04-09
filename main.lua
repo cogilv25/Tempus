@@ -18,6 +18,14 @@
 -- go back in time and you'll see
 -- your previous self moving around
 
+-- TODO:
+-- Tidy & comment
+-- General refactor 
+-- Doors don't reset when going back in time just reset the whole level
+-- Activators should be a part of the lvl file format
+-- Collision detection
+-- Some levels with unique puzzles
+
 function love.load()
 	--! Include Requirements
 	--! Libraries
@@ -62,9 +70,21 @@ function love.load()
 	paused = false
 end
 
+function changeTile(x,y,color)
+	if(level.resetableTerrain.grid.set == nil)then
+		level.resetableTerrain.grid = {set = true}
+	end
+	if(level.resetableTerrain.grid[x].set == nil)then
+		level.resetableTerrain.grid[x] = {set = true}
+	end
+	level.resetableTerrain.grid[x][y] = color;
+	setmetatable(level.resetableTerrain.grid,{__index = level.terrain.grid})
+	setmetatable(level.resetableTerrain.grid[x],{__index = level.terrain.grid[x]})
+end
+
 function moveDoors() 
-	level.terrain.grid[13][12] = 0;
-	level.terrain.grid[14][12] = 0;
+	changeTile(13,12,0)
+	changeTile(14,12,0)
 end
 
 function displayTimedStatus(message,time)
@@ -126,6 +146,7 @@ end
 
 function love.keypressed(key)
 	if(key == 'r')then
+		--not working
 		refresh()
 	elseif(key == "escape")then
 		love.event.quit()

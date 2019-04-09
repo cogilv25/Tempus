@@ -6,12 +6,11 @@ function TimeMachine:new()
    	self.color = {255,255,255}
 end
 
--- Unneccessary function atm
---[[
 function TimeMachine:update(dt)
-	self.super.update(dt)
+	if((player.pos - self.pos):getLength() < math.max(player.dim.x,self.wh.x)) then
+		self:event();
+	end
 end
---]]
 
 function TimeMachine:draw()
 	love.graphics.setColor(self.color)
@@ -26,5 +25,6 @@ function TimeMachine:activationEvent()
 		enemy.pos.x = 500
 		enemy.pos.y = 500
 		frame = 1
+		level:resetTerrain()
 	end
 end

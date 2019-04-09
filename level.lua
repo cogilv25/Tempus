@@ -4,6 +4,8 @@ Level = Object:extend()
 function Level:new()
 	self.terrain = World()
 
+    -- No point in initialising resetable resetableTerrain ye
+
 	self.entities = {}
 
 	self.triggers = {}
@@ -28,8 +30,14 @@ function Level:loadFromFile(filename)
     		end
     	end
     end
+    self:resetTerrain()
+end
+
+function Level:resetTerrain()
+    self.resetableTerrain = {}
+    setmetatable(self.resetableTerrain, {__index = self.terrain})
 end
 
 function Level:draw()
-	self.terrain:draw()
+	self.resetableTerrain:draw()
 end

@@ -10,7 +10,18 @@ function AreaTrigger:new(x,y,width,height,event)
 end
 
 function AreaTrigger:update(dt)
-	if((player.pos - self.pos):getLength() < math.max(player.dim.x,self.wh.x))then
+
+	ghostColided = false
+	for i,v in ipairs(history.Entities) do
+        t = v:getPosition(frame)
+        if(t ~= false)then
+            if(self.pos - t):getLength() < math.max(player.dim.x,self.wh.x)then
+            	ghostColided = true
+            end
+        end
+    end
+	if((player.pos - self.pos):getLength() < math.max(player.dim.x,self.wh.x) or
+		(enemy.pos - self.pos):getLength() < math.max(enemy.width,self.wh.x) or ghostColided == true)then
 		self:event();
 	end
 end
