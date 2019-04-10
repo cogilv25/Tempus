@@ -1,6 +1,6 @@
 require "world"
 require "lib/xorshift"
-require "vector"
+
 RNGWorld = World:extend()
 
 function RNGWorld:new(dimentions,seed)

@@ -7,6 +7,10 @@ function Entity:new()
 	self.color = {0,0,0}
 end
 
+function Entity:update(dt)
+	error("update function was not overridden in a derivative of Entity")
+end
+
 function Entity:draw()
 	love.graphics.setColor(self.color)
     love.graphics.rectangle("fill", self.pos.x, self.pos.y, self.dim.x, self.dim.y)

@@ -32,8 +32,7 @@ Object = require "lib/classic/classic"
 tick = require "lib/tick/tick"
 rng = require "lib/xorshift"
 bit = require "bit"
-requiredFiles = {"world","level","history","timemachine",
-"player","zombie","rngworld"}
+requiredFiles = {"level","history","timemachine","player","zombie","rngworld"}
 for i=1,#requiredFiles do
 	require(requiredFiles[i])
 end
@@ -57,7 +56,8 @@ function love.load()
 	paused = false
 
 	-- This should be defined in lvl file
-	activator = AreaTrigger(21*30,9*30,30,30,moveDoors)
+	activator = AreaTrigger(21*30,9*30,30,30)
+	activator.event = moveDoors
 	activator.color = {185,0,255}
 end
 
@@ -113,8 +113,8 @@ function love.draw()
 	love.graphics.print("Fps: " .. love.timer.getFPS(),player.pos.x - 367,player.pos.y-282)
     if(displayStatus)then
     	-- Maybe move status to the bottom right and draw a black box
-    	-- behind it as I think the box would look weird in the middle
-    	-- of the screen
+    	-- behind it so text is visible on bright backgrounds but I 
+    	-- think the box would look weird in the middle of the screen
     	love.graphics.printf(status, player.pos.x -85,player.pos.y-20,200,"center")
 	end
 end

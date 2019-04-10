@@ -1,6 +1,9 @@
 require "rngworld"
 Level = Object:extend()
 
+
+-- I will probably do something similar to what I did with resetableTerrain to
+-- allow the entire level to reset including entities and everything
 function Level:new()
 	self.terrain = World()
 

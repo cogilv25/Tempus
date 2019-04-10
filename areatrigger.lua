@@ -5,10 +5,13 @@ AreaTrigger = Object:extend()
 -- derivatives should override the function with a basic 
 -- event to notify if no event is set (a status message?)
 
-function AreaTrigger:new(x,y,width,height,event)
+function AreaTrigger:new(x,y,width,height)
 	self.pos = Vector(x or 0, y or 0)
 	self.dim = Vector(width or 30, height or 30)
-	self.event = event
+end
+
+function AreaTrigger:event()
+	error("event function was not overridden in a derivative of AreaTrigger")
 end
 
 function AreaTrigger:update(dt)
