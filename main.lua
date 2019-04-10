@@ -9,7 +9,8 @@
 -- even trying to comprehend it so it may
 -- have strange quirks here and there and
 -- certainly isn't completely thought
--- through.
+-- through. <- I might have changed may
+-- mind...
 
 -- Controls:
 -- WASD to move
@@ -21,36 +22,25 @@
 -- TODO:
 -- Tidy & comment
 -- General refactor 
--- Doors don't reset when going back in time just reset the whole level
 -- Activators should be a part of the lvl file format
 -- Collision detection
 -- Some levels with unique puzzles
 
+
+-- Includes
+Object = require "lib/classic/classic"
+tick = require "lib/tick/tick"
+rng = require "lib/xorshift"
+bit = require "bit"
+requiredFiles = {"world","level","history","timemachine",
+"player","zombie","rngworld"}
+for i=1,#requiredFiles do
+	require(requiredFiles[i])
+end
+
 function love.load()
-	--! Include Requirements
-	--! Libraries
-	Object = require "lib/classic/classic"
-	tick = require "lib/tick/tick"
-	rng = require "lib/xorshift"
-	bit = require "bit"
-	
-	--! Base Classes
-	require "event"
-	require "areatrigger"
-	require "entity"
-	require "world"
-	require "level"
 
-	--! High Level Classes
-	require "history"
-	require "timemachine"
-	require "rectangle"
-	require "player"
-	require "zombie"
-	require "rngworld"
-
-	love.window.setTitle("Tick Tick...")
-	--!love.window.setFullscreen(true)
+	love.window.setTitle("Tempus (Working Title)")
 	love.graphics.setBackgroundColor(0,0,0)
 
 	playArea = Vector(love.graphics.getDimensions())
@@ -63,53 +53,48 @@ function love.load()
 	displayTimedStatus()
 	level = Level()
 	level:loadFromFile("Data/MockPrefab.lvl")
+	frame = 1
+	paused = false
+
 	-- This should be defined in lvl file
 	activator = AreaTrigger(21*30,9*30,30,30,moveDoors)
 	activator.color = {185,0,255}
-	frame = 1
-	paused = false
-end
-
-function changeTile(x,y,color)
-	if(level.resetableTerrain.grid.set == nil)then
-		level.resetableTerrain.grid = {set = true}
-	end
-	if(level.resetableTerrain.grid[x].set == nil)then
-		level.resetableTerrain.grid[x] = {set = true}
-	end
-	level.resetableTerrain.grid[x][y] = color;
-	setmetatable(level.resetableTerrain.grid,{__index = level.terrain.grid})
-	setmetatable(level.resetableTerrain.grid[x],{__index = level.terrain.grid[x]})
 end
 
 function moveDoors() 
-	changeTile(13,12,0)
-	changeTile(14,12,0)
+	level.resetableTerrain.grid[13][12] = 0
+	level.resetableTerrain.grid[14][12] = 0
 end
 
+-- If there is more than one message at a time we have an issue.
+-- We need a queue of strings to display.
 function displayTimedStatus(message,time)
 	displayStatus = true
-	status = message or "Systems Nominal"
-	tick.delay(function() displayStatus = false end, time or 1)
+	status = message or "No Text Set For Timed Status"
+	tick.delay(function() displayStatus = false end, time or 2)
 end
 
 local function load(filename)
+	-- Load and execute the file checking for errors
 	local ok, chunk, result
-	ok, chunk = pcall( love.filesystem.load, filename ) -- load the chunk safely
+	ok, chunk = pcall( love.filesystem.load, filename )
 	if not ok then
-	  displayTimedStatus('Error: ' .. tostring(chunk))
+	  displayTimedStatus('Error: ' .. tostring(chunk), 15)
 	else
-	  ok, result = pcall(chunk) -- execute the chunk safely
+	  ok, result = pcall(chunk) 
 
-	  if not ok then -- will be false if there is an error
-		displayTimedStatus('Error: ' .. tostring(result))
+	  if not ok then 
+		displayTimedStatus('Error: ' .. tostring(result), 15)
 	  else
-		displayTimedStatus('Reload Successful')
+		displayTimedStatus(filename ..' loaded successfully')
 	  end
 	end
 end
 
-function refresh()
+function reloadScript()
+	for i=1,#requiredFiles do
+		load(requiredFiles[i])
+	end
 	load("main.lua")
 end
 
@@ -120,11 +105,17 @@ function love.draw()
     player:draw()
     timem:draw()
     love.graphics.setColor(activator.color)
-    love.graphics.rectangle("fill", activator.pos.x, activator.pos.y, activator.wh.x, activator.wh.y)
+    love.graphics.rectangle("fill", activator.pos.x, activator.pos.y, activator.dim.x, activator.dim.y)
     history:draw(frame)
-    love.graphics.setColor(0,255,0)
+    love.graphics.setColor(0,0,0)
+	love.graphics.rectangle("fill",player.pos.x - 370, player.pos.y-285,60,20)
+    love.graphics.setColor(255,255,255)
+	love.graphics.print("Fps: " .. love.timer.getFPS(),player.pos.x - 367,player.pos.y-282)
     if(displayStatus)then
-    	love.graphics.print(status)
+    	-- Maybe move status to the bottom right and draw a black box
+    	-- behind it as I think the box would look weird in the middle
+    	-- of the screen
+    	love.graphics.printf(status, player.pos.x -85,player.pos.y-20,200,"center")
 	end
 end
 
@@ -138,16 +129,15 @@ function love.update(d)
     activator:update()
 	enemy:update(d)
 
-	--Not exactly accurate I know
-	if((player.pos - enemy.pos):getLength() < 30)then
-		displayTimedStatus("You Have Failed", 5)
+	--Squares are not spheres but this is temporary
+	if((player.pos - enemy.pos):getLength() < math.max(player.dim.x,enemy.dim.x))then
+		displayTimedStatus("Thou Hast Failed", 5)
 	end
 end
 
 function love.keypressed(key)
 	if(key == 'r')then
-		--not working
-		refresh()
+		reloadScript()
 	elseif(key == "escape")then
 		love.event.quit()
 	end

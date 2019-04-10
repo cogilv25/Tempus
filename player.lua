@@ -1,5 +1,4 @@
-require "vector"
-require "history"
+require "entity"
 
 Player = Entity:extend()
 

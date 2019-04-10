@@ -2,7 +2,7 @@ World = Object:extend()
 
 function World:new(dimentions)
 	self.dim = dimentions or Vector(100,100)
---	This shouldn't be static
+	-- no way for user to set tile dimensions
 	self.tileDim = Vector(30,30)
 
 	self.grid = {}

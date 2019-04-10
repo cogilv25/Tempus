@@ -1,18 +1,18 @@
-require "vector"
-Zombie = Object:extend()
+require "entity"
+Zombie = Entity:extend()
 
 function Zombie:new()
+    self.super.new(self)
     self.pos = Vector(500,500)
-    self.width = 30
-    self.height = 30
     self.vector = Vector()
     self.color = {255,0,0}
     self.speed = 130
 end
 
 function Zombie:update(dt)
-    d = (self.pos - player.pos):getLength() --! distance
-    cv = player.pos --! closest player vector
+    --Find closest player / "ghost" and move towards them
+    d = (self.pos - player.pos):getLength()
+    cv = player.pos
     for i,v in ipairs(history.Entities) do
         t = v:getPosition(frame)
         if(t ~= false)then
@@ -28,9 +28,4 @@ function Zombie:update(dt)
     self.vector:scale(self.speed * dt)
 
     self.pos = self.pos + self.vector
-end
-
-function Zombie:draw()
-    love.graphics.setColor(self.color)
-    love.graphics.rectangle("fill", self.pos.x, self.pos.y, self.width, self.height)
 end

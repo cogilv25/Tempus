@@ -7,14 +7,14 @@ function TimeMachine:new()
 end
 
 function TimeMachine:update(dt)
-	if((player.pos - self.pos):getLength() < math.max(player.dim.x,self.wh.x)) then
+	if((player.pos - self.pos):getLength() < math.max(player.dim.x,self.dim.x)) then
 		self:event();
 	end
 end
 
 function TimeMachine:draw()
 	love.graphics.setColor(self.color)
-    love.graphics.rectangle("fill", self.pos.x, self.pos.y, self.wh.x, self.wh.y)
+    love.graphics.rectangle("fill", self.pos.x, self.pos.y, self.dim.x, self.dim.y)
 end
 
 function TimeMachine:activationEvent()
