@@ -1,4 +1,4 @@
-# Tick Tick
+# Tempus
 Written by Calum Lindsay.  
  I wrote this to test out a time travel puzzle game idea but there's not a lot to it at the moment. There possibly never will be as I mostly got what I wanted from it. This was completely written without any intention of anyone reading it or even trying to comprehend it so it may have strange quirks here and there and certainly isn't completely thought through.
 
@@ -15,9 +15,9 @@ You will need the LÖVE Engine to run it which you can get [here](https://love2d
 - The Yellow squares are Doors and the purple square is an activator for the doors
 
 ## Possible future improvements / problems
-- Tidy & comment
-- General refactor 
-- Doors don't reset when going back in time just reset the whole level
-- Activators should be a part of the lvl file format
-- Collision detection
-- Some levels with unique puzzles
+[ ] Tidy & comment
+[ ] General refactor 
+[x] Doors don't reset when going back in time just reset the whole level
+[ ] Activators should be a part of the lvl file format
+[ ] Collision detection
+[ ] Some levels with unique puzzles
