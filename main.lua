@@ -25,13 +25,19 @@
 -- Activators should be a part of the lvl file format
 -- Collision detection
 -- Some levels with unique puzzles
+-- Pause Menu
+-- Tables update when reloading files (ex: snake update function can be edited)
+-- Entire level reset with one call (level keeps track of everything)
+-- Layers
 
 
 -- Includes
 Object = require "lib/classic/classic"
 tick = require "lib/tick/tick"
 rng = require "lib/xorshift"
+binser = require "lib/binser"
 bit = require "bit"
+
 requiredFiles = {"level","history","timemachine","player","zombie","rngworld"}
 for i=1,#requiredFiles do
 	require(requiredFiles[i])
@@ -51,7 +57,7 @@ function love.load()
 	history:addEntity()
 	displayTimedStatus()
 	level = Level()
-	level:loadFromFile("Data/MockPrefab.lvl")
+	level:loadFromFile("Data/levels/MockPrefab.lolvl")
 	frame = 1
 	paused = false
 
