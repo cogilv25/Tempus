@@ -15,7 +15,7 @@ function Level:new()
 
 	self.timeline = {}
 end
-
+-- load from string
 function Level:loadFromFile(filename)
 	contents, size = love.filesystem.read(filename)
     local numberList = {}

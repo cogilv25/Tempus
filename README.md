@@ -15,9 +15,11 @@ You will need the LÖVE Engine to run it which you can get [here](https://love2d
 - The Yellow squares are Doors and the purple square is an activator for the doors
 
 ## Possible future improvements / problems
+- [x] Doors reset when going back in time
+- [ ] Activators should be a part of the lvl file format
+- [ ] Layers for abstracting input/drawing/updating
+- [ ] Pause menu
 - [ ] Tidy & comment
 - [ ] General refactor 
-- [x] Doors don't reset when going back in time just reset the whole level
-- [ ] Activators should be a part of the lvl file format
 - [ ] Collision detection
 - [ ] Some levels with unique puzzles
