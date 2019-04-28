@@ -1,5 +1,5 @@
 require "world"
-require "lib/xorshift"
+require "lib/xorshift/xorshift"
 
 RNGWorld = World:extend()
 

@@ -1,4 +1,5 @@
 require "rngworld"
+require "areatrigger"
 Level = Object:extend()
 
 

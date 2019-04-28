@@ -1,4 +1,4 @@
-require "entity"
+require "lib/game/entity"
 Zombie = Entity:extend()
 
 function Zombie:new()

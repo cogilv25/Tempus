@@ -1,4 +1,4 @@
-require "entity"
+require "lib/game/entity"
 
 Player = Entity:extend()
 

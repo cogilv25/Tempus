@@ -32,11 +32,11 @@
 
 
 -- Includes
-Object = require "lib/classic/classic"
-tick = require "lib/tick/tick"
-rng = require "lib/xorshift"
-binser = require "lib/binser"
 bit = require "bit"
+Object = require "lib/thirdparty/classic/classic"
+tick = require "lib/thirdparty/tick/tick"
+rng = require "lib/xorshift/xorshift"
+binser = require "lib/thirdparty/binser"
 
 requiredFiles = {"level","history","timemachine","player","zombie","rngworld"}
 for i=1,#requiredFiles do

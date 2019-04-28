@@ -1,3 +1,4 @@
+require "lib/game/vector"
 World = Object:extend()
 
 function World:new(dimentions)
